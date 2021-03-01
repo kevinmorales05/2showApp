@@ -10,8 +10,8 @@ export default function Menu() {
                 <a className="navbar-brand" href="/">
                     <img src={logo} alt="" width="80" height="60" /> 2Show
                 </a>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#identificador1" aria-controls="identificador1" aria-expanded="false" aria-label="Toggle navigation">
-                 <span class="navbar-toggler-icon"></span>
+                <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#identificador1" aria-controls="identificador1" aria-expanded="false" aria-label="Toggle navigation">
+                 <span className="navbar-toggler-icon"></span>
                 </button>
                 
            
