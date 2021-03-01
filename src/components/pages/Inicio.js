@@ -8,6 +8,7 @@ import {
     Route, NavLink,
     Link
   } from "react-router-dom";
+  import Menu from '../Menu';
 
 export default function Inicio() {
   return (
@@ -21,13 +22,14 @@ export default function Inicio() {
         </div>
       </div>
       <h3>Lo que 2Show tiene para ti</h3>
-      <Row justify="center" wrap="true" className="container">
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+      <Row justify="center" wrap="true" className="propaganda">
+        <Col xs={24} sm={8} md={8} lg={8} xl={8}>
           <Image
             src="https://picsum.photos/200/300"
             width={200}
             height={300}
             preview={false}
+            className="imagen"
           />
           <h2>Shows en Vivo</h2>
           <p>
@@ -36,8 +38,9 @@ export default function Inicio() {
             ever since the 1500s.
           </p>
         </Col>
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+        <Col xs={24} sm={8} md={8} lg={8} xl={8}>
           <Image
+          className="imagen"
             src="https://picsum.photos/200/300"
             width={200}
             height={300}
@@ -50,8 +53,9 @@ export default function Inicio() {
             ever since the 1500s.
           </p>
         </Col>
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+        <Col xs={24} sm={8} md={8} lg={8} xl={8}>
           <Image
+          className="imagen"
             src="https://picsum.photos/200/300"
             width={200}
             height={300}
@@ -95,6 +99,7 @@ export default function Inicio() {
             allowfullscreen></iframe>
         </Col>
       </Row>
+      
       
 
     </div>

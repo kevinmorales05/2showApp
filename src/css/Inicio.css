@@ -18,3 +18,22 @@
     text-align: center;
 
 }
+.propaganda{
+    display: flex;
+   flex-direction: row;
+    
+}
+.imagen {
+    align-self: center;
+    text-align: center;
+    margin: 0 auto;
+}
+@media (max-width: 800px) {
+    .propaganda {
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      align-self: center;
+    }
+  }
+
