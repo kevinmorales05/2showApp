@@ -1,6 +1,10 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom';
 import {auth, db} from '../firebase'
+import {useState} from 'react';
+
+//importo el datapicker
+import { DatePicker, Space } from 'antd';
 
 
  function Ingresar(props) {
@@ -9,6 +13,17 @@ import {auth, db} from '../firebase'
     const [pass, setPass] = React.useState('initialState');
     const [error, setError] = React.useState(null)
     const [esRegistro, setEsRegistro] = React.useState(false)
+    const [nombre, setNombre] = React.useState('');
+    const [apellido, setApellido] = React.useState('');
+    const [ciudad, setCiudad] = React.useState('');
+    const [pais, setPais] = React.useState('');
+    const [cuenta, setCuenta] = React.useState('')
+
+
+    function onChange(date, dateString) {
+        console.log(date, dateString);
+      }
+   
 
 //funcion para hacer login
 const login = React.useCallback(async()=>{
@@ -47,7 +62,13 @@ const login = React.useCallback(async()=>{
             //crea una coleccion nueva dentro de Usuarios
             await db.collection('Usuarios').doc(res.user.email).set({
                 email: res.user.email,
-                uid: res.user.uid
+                uid: res.user.uid,
+                nombre: nombre,
+                apellido: apellido,
+                ciudad: ciudad,
+                pais: pais,
+                cuenta: cuenta
+                
             })
            //resetea los estados
             setEmail('');
@@ -67,7 +88,7 @@ const login = React.useCallback(async()=>{
     
 }
 
-    },[email,pass, props.history]) //necesito poner los estados que voy a ocupar en el callback
+    },[email,pass, props.history, nombre,apellido, ciudad, pais, cuenta]) //necesito poner los estados que voy a ocupar en el callback
     //no olvidar poner el props.history
 
     const procesarDatos = e => {
@@ -101,7 +122,7 @@ const login = React.useCallback(async()=>{
     }
     return (
         <div className="container">
-            <h2>Ingresar</h2>
+           
             <div className="mt-5">
                 <h3 className='text-center'> 
                 {
@@ -134,8 +155,70 @@ const login = React.useCallback(async()=>{
                                 placeholder="Ingrese su contraseña"
                                 onChange ={e => setPass(e.target.value)}
                                 value={pass}
-                                />    
-                              <button type="submit" className="btn btn-dark btn-lg btn-block text-aling-center mb-2" >
+                                /> 
+
+                                {
+                                   esRegistro ? (
+                                   <div>
+                                        <input type="text"
+                                        class="form-control mb-2"  
+                                        placeholder="Escriba su Nombre"
+                                        onChange ={e => setNombre(e.target.value)}
+                                        value={nombre}
+                                    /> 
+                                    <input type="text"
+                                        class="form-control mb-2"  
+                                        placeholder="Escriba su Apellido"
+                                        onChange ={e => setApellido(e.target.value)}
+                                        value={apellido}
+                                    /> 
+                                    <input type="text"
+                                        class="form-control mb-2"  
+                                        placeholder="Ciudad de Residencia"
+                                        onChange ={e => setCiudad(e.target.value)}
+                                        value={ciudad}
+                                    />
+                                    <input type="text"
+                                        class="form-control mb-2"  
+                                        placeholder="Pais de Origen"
+                                        onChange ={e => setPais(e.target.value)}
+                                        value={pais}
+                                    />
+                                      <h3>Tipo de Cuenta</h3>
+                                        <form>
+                                            <input type='radio' id='artista' value={cuenta} name='artista'  
+                                                onChange ={e => 
+                                                {
+                                                    setCuenta('ART')
+                                                    console.log('ART')
+                                                }
+                                                }/> 
+                                            <label for="artista">Artista</label>
+                                            <br></br>
+                                            <input type='radio' id='usuario' value={cuenta} name='usuario' 
+                                                onChange ={e => 
+                                                {
+                                                    setCuenta('USR')
+                                                    console.log('USR')
+                                                }
+                                            } />
+                                            <label for="usuario" >Usuario Normal</label>
+                                        </form>
+                                        <h3>Escriba la fecha de su nacimiento</h3>
+                                            <Space direction="vertical">
+                                                <DatePicker onChange={onChange} />
+                                               
+                                            </Space>
+
+                                    </div>)
+                                     : null
+                                        
+                                   
+
+                                   } 
+                                
+
+                              <button type="submit"  className="btn btn-dark btn-lg btn-block text-aling-center mb-2" >
                               {
                                     esRegistro ? 'Registrar Usuario' : 'Ingresar'
                                 }

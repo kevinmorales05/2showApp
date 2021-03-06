@@ -15,12 +15,26 @@ import { withRouter } from 'react-router';
             //redirigir al usuario al login
             props.history.push('/ingresar');
         }
-    }, []) //para que devuelva una sola vez se deja vacio
+    }, [props.history]) //para que devuelva una sola vez se deja vacio
     return (
         <div>
             <h1>Mi perfil</h1>
             <p>Kevin Morales</p>
-            <h2>Ruta protegida</h2>
+            <h2>Ruta protejida</h2>
+            <h2>email</h2>
+            {
+                user && (
+                    <h3> {user.email}</h3>
+                    
+                )
+            }
+             
+         
+
+
+
+           
+            
             
         </div>
     )

@@ -17,7 +17,7 @@ import {
         auth.signOut()
         .then(
             () => {
-                props.history.push('/');
+                props.history.push('/ingresar');
             }
         )
     }
@@ -42,7 +42,13 @@ import {
           <NavLink to='/eventos' className="btn btn-dark" activeClassName="active">
             Eventos
           </NavLink>
-          
+          {
+              props.firebaseUser !== null ? (
+                <Link to='/myprofile' className="btn btn-dark" activeClassName="active">
+                    Mi perfil
+                </Link>
+              ) : null
+          }
            {
                props.firebaseUser !== null ? (
                    <button className="btn btn-dark"
@@ -58,17 +64,9 @@ import {
                 </Link>
                )
            }
-          {
-              props.firebaseUser !== null ? (
-                <Link to='/myprofile' className="btn btn-dark" activeClassName="active">
-                    Mi perfil
-                </Link>
-              ) : null
-          }
           
-          <Link to='/contacto' className="btn btn-dark">
-            Contacto
-          </Link>
+          
+          
         </div>
     )
 }
