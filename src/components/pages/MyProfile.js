@@ -9,13 +9,13 @@ import { withRouter } from 'react-router';
     React.useEffect(()=> {
         if(auth.currentUser){
             console.log('Existe un usuario')
-            setUser(auth.currentUser);
+            setUser(auth.currentUser); //toda la informacion del usuario
         } else {
             console.log('no existe un usuario')
             //redirigir al usuario al login
             props.history.push('/ingresar');
         }
-    }, [])
+    }, []) //para que devuelva una sola vez se deja vacio
     return (
         <div>
             <h1>Mi perfil</h1>

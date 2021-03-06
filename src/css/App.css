@@ -37,8 +37,10 @@
   }
 }
 .logo {
-  margin-right: 800px;
+  margin-right: 80px;
 }
 .menu {
-  background-color: black;
+  background-color: white;
+  display: inline-block;
+  
 }

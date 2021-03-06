@@ -1,35 +1,79 @@
 import React from 'react'
+import '../css/App.css';
 import logo from '../images/icono.png';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route, NavLink,
+    Link
+  } from "react-router-dom";
+  import {Button, Image} from 'antd';
+  import {auth} from '../components/firebase'
+  import { withRouter } from 'react-router';
 
-export default function Menu() {
+ function Menu(props) {
+
+    const cerrarSesion = () => {
+        auth.signOut()
+        .then(
+            () => {
+                props.history.push('/');
+            }
+        )
+    }
+    
+
     return (
         <div>
-          <nav className="navbar navbar-light bg-light bg-inverse navbar-toggleable-sm">
+          <Link className="navbar-brand logo" to='/'>
+            <Image src={logo} 
+            width={100}
+            height={50}
+            preview={false}
+            className="imagen"
+            />
+            </Link>
+          <Link to="/" className="btn btn-dark ">
+            Home
+          </Link>
+          <Link to='/about' className="btn btn-dark">
+            About
+          </Link>
+          <NavLink to='/eventos' className="btn btn-dark" activeClassName="active">
+            Eventos
+          </NavLink>
           
-          <div className="container-fluid">
-                <a className="navbar-brand" href="/">
-                    <img src={logo} alt="" width="80" height="60" /> 2Show
-                </a>
-                <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#identificador1" aria-controls="identificador1" aria-expanded="false" aria-label="Toggle navigation">
-                 <span className="navbar-toggler-icon"></span>
-                </button>
-                
-           
-            </div>
-            <div  className="collapse navbar-collapse" id="identificador1">
-                <div className="navbar-nav">
-                        <a className="nav-item nav-link"  href="/">Home</a>
-                        <a className="nav-item nav-link" href="/about">About</a>
-                        <a className="nav-item nav-link" href="/eventos">Eventos</a>
-                        <a className="nav-item nav-link" href="/ingresar" >Ingresar</a>
-                        <a className="nav-item nav-link" href="/contacto" >Contacto</a>
-                    </div>
-            </div>
-          </nav>
+           {
+               props.firebaseUser !== null ? (
+                   <button className="btn btn-dark"
+                    onClick={
+                        ()=> cerrarSesion()
+                    }
+                   > 
+                       Log Out
+                   </button>
+               ): (
+                <Link to='/ingresar' className="btn btn-dark">
+                    Ingresar
+                </Link>
+               )
+           }
+          {
+              props.firebaseUser !== null ? (
+                <Link to='/myprofile' className="btn btn-dark" activeClassName="active">
+                    Mi perfil
+                </Link>
+              ) : null
+          }
+          
+          <Link to='/contacto' className="btn btn-dark">
+            Contacto
+          </Link>
         </div>
     )
 }
 
+export default withRouter(Menu);
 
 
 
