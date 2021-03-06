@@ -20,11 +20,18 @@ import { withRouter } from 'react-router';
         <div>
             <h1>Mi perfil</h1>
             <p>Kevin Morales</p>
-            <h2>Ruta protejida</h2>
+            <h2>Ruta protegida</h2>
             <h2>email</h2>
             {
                 user && (
-                    <h3> {user.email}</h3>
+                    <div>
+                        <h3> {user.email}</h3>
+                        <h3> {user.nombre}</h3>
+                        <h3> {user.apellido}</h3>
+
+                    </div>
+                    
+                  
                     
                 )
             }
