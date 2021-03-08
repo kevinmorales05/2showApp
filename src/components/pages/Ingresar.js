@@ -72,6 +72,13 @@ const login = React.useCallback(async()=>{
                 pais: pais,
                 cuenta: cuenta,
                 uid: res.user.uid,
+                foto: 'https://pixabay.com/images/id-973460/',
+                email: res.user.email,
+                categoria: '',
+                numFollowers: 0,
+                banner: 'https://pixabay.com/images/id-3330642/',
+                cumple: ''
+
                 
                 
             })

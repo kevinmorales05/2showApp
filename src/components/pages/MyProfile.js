@@ -54,10 +54,7 @@ function MyProfile(props) {
 
   return (
     <div>
-      <div>
-        <h1>Pruebas</h1>
-        {user ? user.email : null}
-      </div>
+      
       <div id="banner">
         <h1>
           {" "}
@@ -65,7 +62,7 @@ function MyProfile(props) {
         </h1>
         <Image
           id="imagenPrincipal"
-          src="../img/logo2ShowOriginal.png"
+          src= {infoUser.foto}
           width={300}
           height={300}
         />
@@ -105,7 +102,7 @@ function MyProfile(props) {
 
               <div className="seguidoresBloque">
                 <Button className="botonBloque">Seguidores</Button>
-                <p> 20k</p>
+                <p> {infoUser.numFollowers}</p>
               </div>
             </div>
           </div>
