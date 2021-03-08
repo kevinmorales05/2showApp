@@ -63,13 +63,19 @@ const login = React.useCallback(async()=>{
             await db.collection('Usuarios').doc(res.user.email).set({
                 email: res.user.email,
                 uid: res.user.uid,
+
+            })
+            await db.collection('infoUser').doc(res.user.email).set({
                 nombre: nombre,
                 apellido: apellido,
                 ciudad: ciudad,
                 pais: pais,
-                cuenta: cuenta
+                cuenta: cuenta,
+                uid: res.user.uid,
+                
                 
             })
+            
            //resetea los estados
             setEmail('');
             setPass('');

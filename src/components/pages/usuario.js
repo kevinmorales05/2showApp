@@ -1,68 +1,17 @@
-import React, { useState } from "react";
-import { auth, db } from "../firebase";
-import { withRouter } from "react-router";
-import "../../css/myProfile.css";
-//importo Ant para poder usar sus componentes
+import React from "react";
+import "../css/fondo.css";
 import { Menu, Row, Col, Input, Image, Button, Card } from "antd";
 
-const person = {
-  name: "Leonel",
-  lastName: "Morales",
-};
-
-function MyProfile(props) {
-  //state del usuario vigente
-  const [user, setUser] = React.useState(null);
-  //esto es para que un usuario ingrese a MyProfile usando sus credenciales de acceso
-
-  //usuario para subir la informacion
-  const [infoUser, setInfoUser] = useState("");
-
-  //funcion para obtener los datos de la base de datos
-  React.useEffect(() => {
-    if (auth.currentUser) {
-      console.log("Existe un usuario");
-      setUser(auth.currentUser); //toda la informacion del usuario
-      const obtenerDatos = async () => {
-        try {
-          const data = await db.collection("infoUser").get();
-          //console.log(data.docs)
-          const arrayDatos = await data.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          console.log(arrayDatos); //con esto almaceno el array de la informacion de los usuario
-
-          const filtrado = arrayDatos.filter((dato) => dato.uid === user.uid); //esto hago para solo coger el objeto con cohincida con los datos del usuario loggeado
-
-          setInfoUser(filtrado[0]); //asigno el objeto al usuario
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      obtenerDatos();
-    } else {
-      console.log("no existe un usuario");
-      //redirigir al usuario al login
-      props.history.push("/ingresar");
-    }
-  }, [props.history, user]); //para que devuelva una sola vez se deja vacio
-
+export default function Fondo(props) {
+  function fullName(person) {
+    return `${person.name} ${person.lastName}`;
+  }
   const { Meta } = Card;
 
-  //temporal
-
   return (
-    <div>
-      <div>
-        <h1>Pruebas</h1>
-        {user ? user.email : null}
-      </div>
+    <>
       <div id="banner">
-        <h1>
-          {" "}
-          {infoUser.nombre} {infoUser.apellido}{" "}
-        </h1>
+        <h1 n> {fullName(props.person)}</h1>
         <Image
           id="imagenPrincipal"
           src="../img/logo2ShowOriginal.png"
@@ -82,7 +31,7 @@ function MyProfile(props) {
           height={50}
         />
       </div>
-      <Row id="contenido" gutter={[14, 14]}>
+      <Row id="content" gutter={[16, 16]}>
         <Col className="BloqueI" xs={24} sm={24} md={7} lg={7} xl={7}>
           <div className="Bloque">
             <h1>Informacion Personal</h1>
@@ -91,16 +40,16 @@ function MyProfile(props) {
           <div className="informacionBloque">
             <div className="informacion">
               <h2 className="item">
-                <b>Nombre:</b> {infoUser.nombre} {infoUser.apellido}
+                <b>Nombre:</b> Kevin Morales
               </h2>
               <h2 className="item">
                 <b>Edad:</b> 26 años
               </h2>
               <h2 className="item">
-                <b>País:</b> {infoUser.pais}
+                <b>País:</b> Ecuador
               </h2>
               <h2 className="item">
-                <b>Ciudad:</b> {infoUser.ciudad}
+                <b>Ciudad:</b> Quito
               </h2>
 
               <div className="seguidoresBloque">
@@ -141,10 +90,9 @@ function MyProfile(props) {
             </div>
           </div>
           <div id="viewPost">
-            <Card
-              className="postN"
+            <Card className="postN"
               hoverable
-              style={{ width: "80%" }}
+              style={{ width: '80%' }}
               cover={
                 <img
                   alt="example"
@@ -152,13 +100,33 @@ function MyProfile(props) {
                 />
               }
             >
-              <Meta title="2021-02-22" description="Un dia en la naturaleza" />
+                
+              <Meta
+                title="2021-02-22"
+                description="Un dia en la naturaleza"
+              />
+            </Card>
+            
+            <Card className="postN"
+              hoverable
+              style={{ width: '80%' }}
+              cover={
+                <img
+                  alt="example"
+                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                />
+              }
+            >
+                
+              <Meta
+                title="2021-02-22"
+                description="Un dia en la naturaleza"
+              />
             </Card>
 
-            <Card
-              className="postN"
+            <Card className="postN"
               hoverable
-              style={{ width: "80%" }}
+              style={{ width: '80%' }}
               cover={
                 <img
                   alt="example"
@@ -166,22 +134,14 @@ function MyProfile(props) {
                 />
               }
             >
-              <Meta title="2021-02-22" description="Un dia en la naturaleza" />
+                
+              <Meta
+                title="2021-02-22"
+                description="Un dia en la naturaleza"
+              />
             </Card>
-
-            <Card
-              className="postN"
-              hoverable
-              style={{ width: "80%" }}
-              cover={
-                <img
-                  alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                />
-              }
-            >
-              <Meta title="2021-02-22" description="Un dia en la naturaleza" />
-            </Card>
+           
+            
           </div>
         </Col>
 
@@ -234,7 +194,6 @@ function MyProfile(props) {
         </Col>
       </Row>
       <div></div>
-    </div>
+    </>
   );
 }
-export default withRouter(MyProfile);

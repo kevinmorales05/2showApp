@@ -49,7 +49,7 @@ function App() {
           
         </div>
        
-        <hr />
+        
         <Switch>
           <Router path="/contacto">
             <Contacto />
@@ -64,7 +64,7 @@ function App() {
             <Ingresar />
           </Router>
           <Router path="/myprofile">
-            <MyProfile />
+            <MyProfile firebaseUser={firebaseUser} />
           </Router>
           <Router path="/others">
             <OthersProfile />
@@ -86,38 +86,3 @@ function App() {
 export default App;
 
 
-/* cone sto funciona
-<Router>
-      <div className="container mt-3 ">
-        <div className="btn-group mt-4 menu">
-          <Menu firebaseUser={firebaseUser}/>
-          
-        </div>
-       
-        <hr />
-        <Switch>
-          <Router path="/contacto">
-            <Contacto />
-          </Router>
-          <Router path="/about">
-            <About />
-          </Router>
-          <Router path="/eventos">
-            <Eventos />
-          </Router>
-          <Router path="/ingresar">
-            <Ingresar />
-          </Router>
-          <Router path="/myprofile">
-            <MyProfile />
-          </Router>
-          <Router path="/others">
-            <OthersProfile />
-          </Router>
-          <Router path="/" exact>
-            <Inicio />
-          </Router>
-        </Switch>
-      </div>
-    </Router>
-*/
