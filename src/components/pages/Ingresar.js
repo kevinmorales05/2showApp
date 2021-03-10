@@ -219,7 +219,7 @@ const login = React.useCallback(async()=>{
                                         </form>
                                         <h3>Escriba la fecha de su nacimiento</h3>
                                             <Space direction="vertical">
-                                                <DatePicker onChange={onChange} />
+                                                <DatePicker onChange={onChange} type='date' />
                                                
                                             </Space>
 

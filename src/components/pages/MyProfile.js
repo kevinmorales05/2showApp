@@ -11,7 +11,7 @@ const person = {
 };
 
 function MyProfile(props) {
-  //state del usuario vigente
+  //state del usuario vigente, el autenticado
   const [user, setUser] = React.useState(null);
   //esto es para que un usuario ingrese a MyProfile usando sus credenciales de acceso
 
@@ -22,10 +22,11 @@ function MyProfile(props) {
   React.useEffect(() => {
     if (auth.currentUser) {
       console.log("Existe un usuario");
-      setUser(auth.currentUser); //toda la informacion del usuario
+      setUser(auth.currentUser); //toda la informacion del usuario autenticado
       const obtenerDatos = async () => {
         try {
-          const data = await db.collection("infoUser").get();
+          const data = await db.collection("infoUser").get(); //poner doc(user.email) escoje directo, usar solo usuario, usar ingles PONER
+          //const data = await db.collection("infoUser").doc(user.email).get();
           //console.log(data.docs)
           const arrayDatos = await data.docs.map((doc) => ({
             id: doc.id,
@@ -36,6 +37,7 @@ function MyProfile(props) {
           const filtrado = arrayDatos.filter((dato) => dato.uid === user.uid); //esto hago para solo coger el objeto con cohincida con los datos del usuario loggeado
 
           setInfoUser(filtrado[0]); //asigno el objeto al usuario
+          console.log(infoUser);
         } catch (error) {
           console.log(error);
         }
@@ -58,7 +60,7 @@ function MyProfile(props) {
       <div id="banner">
         <h1>
           {" "}
-          {infoUser.nombre} {infoUser.apellido}{" "}
+          {infoUser.nombre} {infoUser.apellido}
         </h1>
         <Image
           id="imagenPrincipal"
