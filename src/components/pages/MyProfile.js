@@ -28,6 +28,30 @@ function MyProfile(props) {
   //lista de posts
   const [listaPost, setListaPost] = useState([]); ///es un arreglo , iniciar asi
 
+///inserto para subir informacion kevin 2021/03/11
+const {  Upload, message, Button  } = antd;
+const {  UploadOutlined  } = icons;
+
+const props = {
+  name: 'file',
+  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+  headers: {
+    authorization: 'authorization-text',
+  },
+  onChange(info) {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+};
+//fin de funciones para subir imagen
+
+
   //funcion para obtener los datos de la base de datos
   React.useEffect(() => {
     if (auth.currentUser) {
@@ -35,18 +59,18 @@ function MyProfile(props) {
       setUser(auth.currentUser); //toda la informacion del usuario autenticado
       const obtenerDatos = async () => {
         try {
-          const data = await db.collection("infoUser").where("uid","=", user.uid).get(); //poner doc(user.email) escoje directo, usar solo usuario, usar ingles PONER
+          const data = await db.collection("infoUser").get(); //poner doc(user.email) escoje directo, usar solo usuario, usar ingles PONER
           //const data = await db.collection("infoUser").doc(user.email).get();
-console.log(data)
+
           const arrayDatos = await data.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
           //console.log(arrayDatos); //con esto almaceno el array de la informacion de los usuario
 
-          //esto hago para solo coger el objeto con cohincida con los datos del usuario loggeado
+          const filtrado = arrayDatos.filter((dato) => dato.uid === props.firebaseUser.uid); //esto hago para solo coger el objeto con cohincida con los datos del usuario loggeado
 
-          setInfoUser(arrayDatos); //asigno el objeto al usuario
+          setInfoUser(filtrado[0]); //asigno el objeto al usuario
           //console.log(infoUser);
         } catch (error) {
           console.log(error);
@@ -153,10 +177,7 @@ console.log(data)
 
       <Row
         id="contenido"
-        gutter={[
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-        ]}
+        
       >
         <Col className="BloqueI" xs={24} sm={24} md={7} lg={7} xl={7}>
           <div className="Bloque">
@@ -186,7 +207,7 @@ console.log(data)
           </div>
         </Col>
 
-        <Col className="BloqueIII" xs={24} sm={24} md={24} lg={10} xl={10}>
+        <Col className="BloqueIII" xs={24} sm={24} md={24} lg={10} xl={8}>
           <div id="postBloque">
             <div id="post">
               <form onSubmit={procesarDatos}>
@@ -198,6 +219,7 @@ console.log(data)
                   value={textoPost}
                 />
                 <div id="iconos">
+                  
                   <UploadOutlined
                     style={{ fontSize: "35px", color: "#fff" }}
                     onClick={() => {
