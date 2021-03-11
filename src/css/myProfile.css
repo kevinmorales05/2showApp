@@ -1,22 +1,41 @@
 #imagenPrincipal {
-    border-radius: 30px;
+    border-radius: 50px !important;
     justify-content: center;
+    align-self: center;
+    margin: 0 auto;
    
     
 }
-#banner {
-    height: 400px;
- 
-    background-image: url('../images/music2.jpg');
 
-    
+#banner {
+    height: 350px;
+    background-image: url('../images/music2.jpg');
     justify-content: center;
     margin: 0 auto;
+   align-items: center;
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    padding-top: 90px;
+   
 }
+.editFoto {
+    position: relative;
+    margin-left: 100px;
+    z-index: 1;
+    top: -30px;
+    
+}
+.editFotoB {
+    position: relative;
+    align-items: flex-end;
+    left: 600px;
+    top: -80px;
+}
+
 #contenido {
     padding-top: 15px;
-    height: 600px;
+    height: 900px;
     background-color: rgb(46,54,76);
     margin: 0 auto;
     display: inline-flex;
@@ -32,6 +51,8 @@
     height: fit-content;
     width: 30%;
     color: white;
+    height: 800px;
+  
     
     
    
@@ -39,7 +60,7 @@
 .BloqueII {
     background-color: white;
     padding: 10px;
-    height: 450px;
+    height: 800px;
     width: 30%;
     color: white;
     
@@ -48,19 +69,27 @@
 }
 .BloqueIII{
     background-color: white;
-    padding: 10px;
+    margin: 10px;
     height: 450px;
     width: 30%;
     color: white;
 }
 .Bloque {
     background-color: #6C141B ;
-    height: 45px;
+    height: 80px;
     margin:10px;
     color: white;
+    text-align: center;
+    align-content: center;
+    
 }
 .Bloque h1 {
     color: white;
+    font-size: 30px;
+    text-align: center;
+    align-self: center;
+    padding-top: 20px;
+    
 }
 .informacionBloque {
     background-color: rgb(46,54,76) ;
@@ -135,7 +164,7 @@
 #postBloque {
     height: 150px;
     background-color: white;
-    
+    margin-top: 20px;
     display: flex;
     align-items:flex-start;
     align-content: center;
@@ -143,25 +172,41 @@
 }
 #post {
     background-color: #6C141B;
-    height: 100px;
-    margin-left: 20px;
-    margin-right: 20px;
+    height: 140px;
+    width: 100%;
+    padding-top: 30px;
     margin-top: 20px;
+    display: flex;
+    align-content: center;
+    margin: 0 auto;
+    padding-left:25px;
 }
 #btnPostear{
     background-color: rgb(46,54,76);
     color: white;
-    margin-left: 60%;
+    margin-left: 20%;
+    height: 40px;
 
 }
 #inputPost {
     background-color: #6C141B;
-    height: 85%;
+    height: 60%;
     font-size: 35px;
     color: white;
     font-weight: bolder;
     border: none;
+    text-align: center;
+   
+   width: 300px;
 }
+#iconos{
+    display: flex;
+    position: relative;
+    z-index: 1;
+    right: -100px;
+    top: 10px;
+}
+
 #viewPost {
     align-content: center;
     align-items: center;
@@ -181,4 +226,3 @@
     width: 80%;
 }
 
-@media 

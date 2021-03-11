@@ -4,11 +4,15 @@ import { withRouter } from "react-router";
 import "../../css/myProfile.css";
 //importo Ant para poder usar sus componentes
 import { Menu, Row, Col, Input, Image, Button, Card } from "antd";
+import {
+  CameraOutlined,
+  UploadOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 
-const person = {
-  name: "Leonel",
-  lastName: "Morales",
-};
+//importar iconos
+import iconoEditar from "../../images/editar.png";
+import iconoEditar2 from "../../images/editar.png";
 
 function MyProfile(props) {
   //state del usuario vigente, el autenticado
@@ -17,6 +21,12 @@ function MyProfile(props) {
 
   //usuario para subir la informacion
   const [infoUser, setInfoUser] = useState("");
+  //estado para subir informacion de los post
+  const [textoPost, setTextoPost] = useState("");
+  const [imgPost, setImgPost] = useState("");
+  const [videoPost, setVideoPost] = useState("");
+  //lista de posts
+  const [listaPost, setListaPost] = useState('')
 
   //funcion para obtener los datos de la base de datos
   React.useEffect(() => {
@@ -27,17 +37,32 @@ function MyProfile(props) {
         try {
           const data = await db.collection("infoUser").get(); //poner doc(user.email) escoje directo, usar solo usuario, usar ingles PONER
           //const data = await db.collection("infoUser").doc(user.email).get();
+         
+          //cargo la coleccion de posts
+          const posts = await db.collection('posts').get();
+          const arrayPost = await posts.docs.map(
+            (doc) => ({
+              id: doc.id, ...doc.data(),
+            })
+          );
+          //console.log(arrayPost)
+          const filteredListPost = arrayPost.filter(
+            (dat) => (dat.uidUser === infoUser.uid)
+          );
+          setListaPost(filteredListPost);
           //console.log(data.docs)
+          console.log('filtrada')
+          console.log( listaPost);
           const arrayDatos = await data.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
-          console.log(arrayDatos); //con esto almaceno el array de la informacion de los usuario
+          //console.log(arrayDatos); //con esto almaceno el array de la informacion de los usuario
 
           const filtrado = arrayDatos.filter((dato) => dato.uid === user.uid); //esto hago para solo coger el objeto con cohincida con los datos del usuario loggeado
 
           setInfoUser(filtrado[0]); //asigno el objeto al usuario
-          console.log(infoUser);
+          //console.log(infoUser);
         } catch (error) {
           console.log(error);
         }
@@ -48,40 +73,82 @@ function MyProfile(props) {
       //redirigir al usuario al login
       props.history.push("/ingresar");
     }
-  }, [props.history, user]); //para que devuelva una sola vez se deja vacio
+  }, [props.history, user, infoUser.uid]); //para que devuelva una sola vez se deja vacio
+  //si pongo listaPost se va un loop infinito 2021-marzo-10
 
   const { Meta } = Card;
 
-  //temporal
+  //funcion para subir el post
+  const subirPost = async (e) => {
+    try {
+      const data = await db.collection("posts").add({
+        textoPost: textoPost,
+        imgPost: imgPost,
+        fechaPost: Date.now(),
+        videoPost: videoPost,
+        likesPost: 0,
+        uidUser: infoUser.uid,
+      });
+      setImgPost("");
+      setVideoPost("");
+      setTextoPost("");
+      console.log("post sent");
+    } catch (error) {
+      console.log("no se pudo subir el post!");
+    }
+  };
+
+  //validacion y proceso para subir post a la base de datos
+  const procesarDatos = (e) => {
+    e.preventDefault();
+    if (!textoPost.trim()) {
+      console.log("Post Vacio");
+
+      return;
+    }
+    subirPost();
+
+    //aqui vamos a registrar al nuevo usuario en firebase
+  };
 
   return (
     <div>
-      
       <div id="banner">
         <h1>
           {" "}
           {infoUser.nombre} {infoUser.apellido}
         </h1>
+
         <Image
           id="imagenPrincipal"
-          src= {infoUser.foto}
-          width={300}
-          height={300}
+          src={infoUser.foto}
+          width={250}
+          height={250}
+          preview={false}
         />
         <Image
-          className="edit"
-          src="../img/editar.png"
+          className="editFoto"
+          src={iconoEditar}
           width={50}
           height={50}
+          preview={false}
         />
         <Image
-          className="edit"
-          src="../img/editar.png"
+          className="editFotoB"
+          src={iconoEditar2}
           width={50}
           height={50}
+          preview={false}
         />
       </div>
-      <Row id="contenido" gutter={[14, 14]}>
+
+      <Row
+        id="contenido"
+        gutter={[
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+        ]}
+      >
         <Col className="BloqueI" xs={24} sm={24} md={7} lg={7} xl={7}>
           <div className="Bloque">
             <h1>Informacion Personal</h1>
@@ -110,36 +177,47 @@ function MyProfile(props) {
           </div>
         </Col>
 
-        <Col className="BloqueIII" xs={24} sm={24} md={24} lg={8} xl={8}>
+        <Col className="BloqueIII" xs={24} sm={24} md={24} lg={10} xl={10}>
           <div id="postBloque">
             <div id="post">
-              <Input
-                id="inputPost"
-                placeholder="¿Qué piensas?..."
-                size="large"
-              />
-              <Image
-                className="edit"
-                src="../img/editar.png"
-                width={25}
-                height={25}
-              />
-              <Image
-                className="edit"
-                src="../img/editar.png"
-                width={25}
-                height={25}
-              />
-              <Image
-                className="edit"
-                src="../img/editar.png"
-                width={25}
-                height={25}
-              />
-              <Button id="btnPostear">Postear</Button>
+              <form onSubmit={procesarDatos}>
+                <Input
+                  id="inputPost"
+                  placeholder="¿Qué piensas?..."
+                  size="large"
+                  onChange={(e) => setTextoPost(e.target.value)}
+                  value={textoPost}
+                />
+                <div id="iconos">
+                  <UploadOutlined
+                    style={{ fontSize: "35px", color: "#fff" }}
+                    onClick={() => {
+                      console.log("aqui va la funcion para subir multimedia");
+                    }}
+                  />
+                  <CameraOutlined
+                    style={{ fontSize: "35px", color: "#fff" }}
+                    onClick={() => {
+                      console.log("aqui va la funcion para activar la camara");
+                    }}
+                  />
+                  <EditOutlined
+                    style={{ fontSize: "35px", color: "#fff" }}
+                    onClick={() => {
+                      console.log("aqui va la funcion para editar multimedia");
+                    }}
+                  />
+                  <button id="btnPostear" type="submit">
+                    Postear
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
           <div id="viewPost">
+
+
+
             <Card
               className="postN"
               hoverable
@@ -213,7 +291,9 @@ function MyProfile(props) {
                 </p>
               </div>
               <Button className="botonReservar">Reservar</Button>
+              
             </div>
+            <Button type="primary" href="/crearEvento" className="btn btn-dark">Crear Evento</Button>
           </div>
           <div className="eventoBloque">
             <div className="Evento">

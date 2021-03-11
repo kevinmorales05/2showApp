@@ -18,7 +18,8 @@ import About from './components/pages/About';
 import OthersProfile from './components/pages/OthersProfile';
 import MyProfile from './components/pages/MyProfile';
 import logo from './images/logo2ShowOriginalBlanco.png';
-import Menu from '../src/components/Menu'
+import Menu from '../src/components/Menu';
+import CrearEvento from './components/pages/CrearEvento';
 
 import {Image} from 'antd';
 import MainAdmin from './components/pages/PanelAdministracion/MainAdmin';
@@ -68,6 +69,10 @@ function App() {
           </Router>
           <Router path="/others">
             <OthersProfile />
+          </Router>
+          <Router path='/crearEvento'>
+            <CrearEvento firebaseUser={firebaseUser}/>
+
           </Router>
           <Router path="/" exact>
             <Inicio />

@@ -51,7 +51,17 @@ React.useEffect(() => {
     return (
         <div>
             <h2> Eventos Disponibles</h2>
-        {
+        
+        
+       
+            
+        </div>
+    )
+}
+
+
+/*revisar este codigo
+{
             eventos.map(
 
                 (event) => (
@@ -65,9 +75,4 @@ React.useEffect(() => {
                     </Card>
                 )
             ) 
-        }
-       
-            
-        </div>
-    )
-}
+        } */
