@@ -15,44 +15,7 @@ export default function CrearEvento(props) {
     const [infoUser, setInfoUser] = React.useState('')
 
 
-
-    React.useEffect(() => {
-        if (auth.currentUser) {
-          console.log("Existe un usuario");
-         
-          const obtenerDatos = async () => {
-            try {
-              const data = await db.collection("infoUser").get(); //poner doc(user.email) escoje directo, usar solo usuario, usar ingles PONER
-              //const data = await db.collection("infoUser").doc(user.email).get();
-              const arrayDatos = await data.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              }));
-             
-    
-              const filtrado = arrayDatos.filter((dato) => dato.uid === props.firebaseUser.uid);
-              console.log(filtrado)
-              setInfoUser(filtrado[0]);
-              
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          obtenerDatos();
-        } else {
-          console.log("no existe un usuario");
-          //redirigir al usuario al login
-          props.history.push("/ingresar");
-        }
-      }, []);
-
-
-
-
-
-
-
-
+  
     return (
         <div>
             {props.firebaseUser.email}

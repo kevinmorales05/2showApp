@@ -26,7 +26,7 @@ function MyProfile(props) {
   const [imgPost, setImgPost] = useState("");
   const [videoPost, setVideoPost] = useState("");
   //lista de posts
-  const [listaPost, setListaPost] = useState('')
+  const [listaPost, setListaPost] = useState([]); ///es un arreglo , iniciar asi
 
   //funcion para obtener los datos de la base de datos
   React.useEffect(() => {
@@ -35,18 +35,18 @@ function MyProfile(props) {
       setUser(auth.currentUser); //toda la informacion del usuario autenticado
       const obtenerDatos = async () => {
         try {
-          const data = await db.collection("infoUser").get(); //poner doc(user.email) escoje directo, usar solo usuario, usar ingles PONER
+          const data = await db.collection("infoUser").where("uid","=", user.uid).get(); //poner doc(user.email) escoje directo, usar solo usuario, usar ingles PONER
           //const data = await db.collection("infoUser").doc(user.email).get();
-
+console.log(data)
           const arrayDatos = await data.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
           //console.log(arrayDatos); //con esto almaceno el array de la informacion de los usuario
 
-          const filtrado = arrayDatos.filter((dato) => dato.uid === user.uid); //esto hago para solo coger el objeto con cohincida con los datos del usuario loggeado
+          //esto hago para solo coger el objeto con cohincida con los datos del usuario loggeado
 
-          setInfoUser(filtrado[0]); //asigno el objeto al usuario
+          setInfoUser(arrayDatos); //asigno el objeto al usuario
           //console.log(infoUser);
         } catch (error) {
           console.log(error);
@@ -62,39 +62,28 @@ function MyProfile(props) {
   //si pongo listaPost se va un loop infinito 2021-marzo-10
 
   React.useEffect(() => {
-     //cargo la coleccion de posts
-     const obtenerPost = async () => {
+    //cargo la coleccion de posts
+    const obtenerPost = async () => {
       try {
-        
-        const posts = await db.collection('posts').get();
-        const arrayPost = await posts.docs.map(
-          (doc) => ({
-            id: doc.id, ...doc.data(),
-          })
-        );
-        
-        const filteredListPost = await arrayPost.filter(
-          (dat) => (dat.uidUser === props.firebaseUser.uid)
+        const posts = await db.collection("posts").get();
+        const arrayPost =  posts.docs.map((doc) => ({ 
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const filteredListPost =  arrayPost.filter(
+          (dat) => dat.uidUser === props.firebaseUser.uid
         );
         setListaPost(filteredListPost);
-        
-        console.log('filtrada')
-        console.log( listaPost);
-        return
 
-      } catch (error) {
-        
-      }
+        console.log("filtrada");
+        console.log(listaPost);
+        return;
+      } catch (error) {}
+    };
+    obtenerPost();
+  }, []);
 
-     }
-     obtenerPost()
-
-  }, [props.firebaseUser.uid])
-
-
-
-
-  
   const { Meta } = Card;
 
   //funcion para subir el post
@@ -132,7 +121,7 @@ function MyProfile(props) {
 
   return (
     <div>
-      <div id="banner">
+      <div id="banner" style={{backgroundImage: `url(${infoUser.banner})`}}>
         <h1>
           {" "}
           {infoUser.nombre} {infoUser.apellido}
@@ -144,6 +133,7 @@ function MyProfile(props) {
           width={250}
           height={250}
           preview={false}
+          className='img-circle'
         />
         <Image
           className="editFoto"
@@ -234,10 +224,31 @@ function MyProfile(props) {
             </div>
           </div>
           <div id="viewPost">
+            
+            {
+              listaPost.map(
+                  (post) => {
+                    return (
+                      <Card
+              className="postN"
+              hoverable
+              style={{ width: "80%" }}
+              cover={
+                <img
+                  alt="example"
+                  src={post.imgPost}
+                />
+              }
+            >
+              <Meta title={post.fechaPost} description={post.textoPost} />
+            </Card>
+                    )
 
-    
-   
+                  }
 
+              )
+            }
+            
             <Card
               className="postN"
               hoverable
@@ -311,9 +322,10 @@ function MyProfile(props) {
                 </p>
               </div>
               <Button className="botonReservar">Reservar</Button>
-              
             </div>
-            <Button type="primary" href="/crearEvento" className="btn btn-dark">Crear Evento</Button>
+            <Button type="primary" href="/crearEvento" className="btn btn-dark">
+              Crear Evento
+            </Button>
           </div>
           <div className="eventoBloque">
             <div className="Evento">

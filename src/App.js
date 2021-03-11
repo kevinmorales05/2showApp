@@ -8,6 +8,7 @@ import {
   Route, NavLink,
   Link
 } from "react-router-dom";
+
 //inserto las páginas del proyecto
 import Contacto from './components/pages/Contacto';
 import Inicio from './components/pages/Inicio';
@@ -74,7 +75,7 @@ function App() {
             <CrearEvento firebaseUser={firebaseUser}/>
 
           </Router>
-          <Router path="/" exact>
+          <Router path="/" exact='true'>
             <Inicio />
           </Router>
         </Switch>

@@ -76,7 +76,7 @@ const login = React.useCallback(async()=>{
                 email: res.user.email,
                 categoria: '',
                 numFollowers: 0,
-                banner: 'https://pixabay.com/images/id-3330642/',
+                banner: 'https://image.freepik.com/foto-gratis/hipster-boy-tocando-guitarra-su-novia-encima-estilo-retro_8595-5221.jpg',
                 cumple: ''
 
                 
