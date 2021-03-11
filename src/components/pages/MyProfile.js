@@ -37,22 +37,7 @@ function MyProfile(props) {
         try {
           const data = await db.collection("infoUser").get(); //poner doc(user.email) escoje directo, usar solo usuario, usar ingles PONER
           //const data = await db.collection("infoUser").doc(user.email).get();
-         
-          //cargo la coleccion de posts
-          const posts = await db.collection('posts').get();
-          const arrayPost = await posts.docs.map(
-            (doc) => ({
-              id: doc.id, ...doc.data(),
-            })
-          );
-          //console.log(arrayPost)
-          const filteredListPost = arrayPost.filter(
-            (dat) => (dat.uidUser === infoUser.uid)
-          );
-          setListaPost(filteredListPost);
-          //console.log(data.docs)
-          console.log('filtrada')
-          console.log( listaPost);
+
           const arrayDatos = await data.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -76,6 +61,40 @@ function MyProfile(props) {
   }, [props.history, user, infoUser.uid]); //para que devuelva una sola vez se deja vacio
   //si pongo listaPost se va un loop infinito 2021-marzo-10
 
+  React.useEffect(() => {
+     //cargo la coleccion de posts
+     const obtenerPost = async () => {
+      try {
+        
+        const posts = await db.collection('posts').get();
+        const arrayPost = await posts.docs.map(
+          (doc) => ({
+            id: doc.id, ...doc.data(),
+          })
+        );
+        
+        const filteredListPost = await arrayPost.filter(
+          (dat) => (dat.uidUser === props.firebaseUser.uid)
+        );
+        setListaPost(filteredListPost);
+        
+        console.log('filtrada')
+        console.log( listaPost);
+        return
+
+      } catch (error) {
+        
+      }
+
+     }
+     obtenerPost()
+
+  }, [props.firebaseUser.uid])
+
+
+
+
+  
   const { Meta } = Card;
 
   //funcion para subir el post
@@ -216,7 +235,8 @@ function MyProfile(props) {
           </div>
           <div id="viewPost">
 
-
+    
+   
 
             <Card
               className="postN"

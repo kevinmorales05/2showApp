@@ -52,7 +52,7 @@ React.useEffect(() => {
         <div>
             <h2> Eventos Disponibles</h2>
         
-        
+           
        
             
         </div>
